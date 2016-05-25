@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	
+	<title>{{ pageTitle }}</title>
+	{% block head_content %}{% endblock %}
+</head>
+<body>
+<div id="container">
+	<div id="top"><h1>{{ pageTitle }}</h1></div>
+	<div id="mid">
+		<div id = "main">
+			{% block main_content %}{% endblock %}
+		</div>
+	</div>
+</div>
+</body>
+</html>
