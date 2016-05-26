@@ -47,7 +47,7 @@ function capitalize(string) {
 }
 
 function setDefaultsForPaymentDetailsSection() {
-    $("input[name='transaction_type']").val("authorization");
+    $("input[name='transaction_type']").val("create_payment_token");
     $("input[name='reference_number']").val(new Date().getTime());
     $("input[name='amount']").val("100.00");
     $("input[name='currency']").val("USD");

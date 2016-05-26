@@ -3,7 +3,7 @@
 {% block head_content %}
 	{% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'core/payment.css' %}"/>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+    <script type="text/javascript" src="{% static 'core/jquery-1.7.min.js' %}"></script>
 {% endblock %}
 
 {% block main_content %}
@@ -16,13 +16,45 @@
             <span class="fieldName">{{ key }}</span><span class="fieldValue">{{ value }}</span><br/>
         </div>
 		{% endfor %}
+		<span class="fieldName">signature</span><span class="fieldValue">{{ signature }}</span><br/>
+		<span class="fieldName">message</span><span class="fieldValue">{{ messageBeforeEncoding }}</span><br/>
 		{% for key, value in paramsDict.items %}
 			<input type="hidden"  name="{{ key }}"  value="{{ value }}"/>
 		{% endfor %}
 		
-		<input type="hidden" id="signature" name="signature" value="WrXOhTzhBjYMZROwiCug2My3jiZHOqATimcz5EBA07M="/>
+			<!--<input type="hidden"  name="payment_method"  value="card"/>
+			<input type="hidden"  name="card_type"  value="001"/>
+			<input type="hidden"  name="card_number"  value="4111111111111111"/>
+			<input type="hidden"  name="card_expiry_date"  value="12-2022"/>
+			<input type="hidden"  name="card_cvn"  value="005"/>
+			<input type="hidden"  name="bill_to_forename"  value="Joe"/>
+			<input type="hidden"  name="bill_to_surname"  value="Smith"/>
+			<input type="hidden"  name="bill_to_email"  value="joesmith@example.com"/>
+			<input type="hidden"  name="bill_to_address_line1"  value="1 My Apartment"/>
+			<input type="hidden"  name="bill_to_address_city"  value="Mountain View"/>
+			<input type="hidden"  name="bill_to_address_postal_code"  value="94043"/>
+			<input type="hidden"  name="bill_to_address_state"  value="CA"/>
+			<input type="hidden"  name="bill_to_address_country"  value="US"/>-->
+			<!--<input type="hidden"  name="bill_to_forename"  value="Joe"/>
+			<input type="hidden"  name="bill_to_surname"  value="Smith"/>
+			<input type="hidden"  name="bill_to_email"  value="joesmith@example.com"/>
+			<input type="hidden"  name="bill_to_address_line1"  value="1 My Apartment"/>
+			<input type="hidden"  name="bill_to_address_state"  value="CA"/>
+			<input type="hidden"  name="bill_to_address_country"  value="US"/>
+			<input type="hidden"  name="payment_method"  value="echeck"/>
+			<input type="hidden"  name="driver_license_state"  value="NY"/>
+			<input type="hidden"  name="driver_license_number"  value="34-78239-396"/>
+			<input type="hidden"  name="date_of_birth"  value="19901001"/>
+			<input type="hidden"  name="echeck_account_type"  value="c"/>
+			<input type="hidden"  name="company_tax_id"  value="123456789"/>
+			<input type="hidden"  name="echeck_sec_code"  value="WEB"/>
+			<input type="hidden"  name="echeck_account_number"  value="452894100"/>
+			<input type="hidden"  name="echeck_routing_number"  value="672302882"/>-->
+		
+			<input type="hidden" id="signature" name="signature" value="{{ signature }}"/>
     </div>
 </fieldset>
+
 <input type="submit" id="submit" value="Confirm"/>
 </form>
 {% endblock %}
