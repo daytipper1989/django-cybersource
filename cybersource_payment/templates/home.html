@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+	{% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/payment.css' %}"/>
+    <script type="text/javascript" src="{% static 'core/jquery-1.7.min.js' %}"></script>
+{% endblock %}
+
+{% block main_content %}
+	<a href="payment_form"><h1>Proceed To Payment</h1></a>
+{% endblock %}

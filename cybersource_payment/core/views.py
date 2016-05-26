@@ -12,6 +12,11 @@ import hashlib
 secretKey = "b16669f97a9c4e4ab397cb8f75bc0765fdd99ca1c75445259d8947424dc83cd04fa04e0187424247b58895e22f1053cab9ce3d8b0b9b48f2bd357a5496c78f6c2e5c0c8e96c44603b8391a214aa046a06db5f41ecbbc4ba1ac1af5061f94a5e3f15db714e8c1496caa849f3b7b6dbf487f2ff4d9d3b84bac8bbb95f15f3e4180"
 
 # Create your views here.
+
+def home(request):
+	pageTitle="Home"
+	return render_to_response('home.html', locals(), context_instance = RequestContext(request))
+
 def pay(request):
 	from configuration import *
 	pageTitle="Payment"

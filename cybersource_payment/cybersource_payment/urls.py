@@ -20,6 +20,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+	url(r'^$', views.home, name='home'),
 	url(r'^payment_form$', views.pay, name='pay'),
 	url(r'^payment_confirmation$', views.confirm, name='confirm'),
 	url(r'^receipt$', views.receive, name='receive'),
