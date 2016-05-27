@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'core',
+    'core',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -56,7 +56,7 @@ ROOT_URLCONF = 'cybersource_payment.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['C:\\Users\\LENOVO\\Desktop\\projects\\cybersource_payment\\cybersource_payment\\templates',],
+        'DIRS': ['C:\\Users\\LENOVO\\Desktop\\projects\\cybersource_payment\\cybersource_payment\\templates', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
