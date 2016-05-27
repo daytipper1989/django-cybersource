@@ -7,13 +7,15 @@
 {% endblock %}
 
 {% block main_content %}
-	
+	<h1>Amount Paid: {{ amount }}</h1>
 	<fieldset id="response">
 		<legend>Receipt</legend>
 		<div>
-			<form id="receipt">
-				Done
-			</form>
+			{% for key, value in d.items %}
+			<div>
+            <span class="fieldName">{{ key }}</span><span class="fieldValue">{{ value }}</span><br/>
+			</div>
+			{% endfor %}
 		</div>
 	</fieldset>
 {% endblock %}

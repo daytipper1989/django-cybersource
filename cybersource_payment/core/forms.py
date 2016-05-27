@@ -5,7 +5,7 @@ import time
 
 class PaymentForm(forms.Form):
     transaction_type = forms.CharField(label=_(
-        'Transaction Type'), max_length=25, required=True, initial="create_payment_token", disabled=True)
+        'Transaction Type'), max_length=25, required=True, initial="authorization", disabled=True)
     reference_number = forms.CharField(label=_('Reference Number'), max_length=25, required=True, initial=str(
         int(round(time.time() * 1000))), disabled=True)
     amount = forms.DecimalField(label=_(

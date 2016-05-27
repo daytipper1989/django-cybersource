@@ -24,9 +24,7 @@
             <span>reference_number:</span><input type="text" name="reference_number" size="25"><br/>
             <span>amount:</span><input type="text" name="amount" size="25"><br/>
             <span>currency:</span><input type="text" name="currency" size="25"><br/>-->
-			<table>
-			{{ paymentForm }}
-			</table>
+			{{ paymentForm.as_p }}
         </div>
     </fieldset>
     <input type="submit" id="submit" name="submit" value="Submit"/>
