@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^payment_form$', views.pay, name='pay'),
     url(r'^payment_confirmation$', views.confirm, name='confirm'),
     url(r'^receipt$', views.receive, name='receive'),
+    url(r'^succeed$', views.succeed, name='succeed'),
 ]

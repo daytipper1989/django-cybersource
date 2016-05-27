@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+	{% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/payment.css' %}"/>
+    <script type="text/javascript" src="{% static 'core/jquery-1.7.min.js' %}"></script>
+{% endblock %}
+
+{% block main_content %}
+<form id="cs_payment_form" action="https://secureacceptance.cybersource.com/pay" method="post">
+    <!-- form id="cs_payment_form" action="https://secureacceptance.cybersource.com/pay" method="post"> -->
+    access_key:<input id="id_access_key" name="access_key" type="text" value="e5e145e18a843c818b88cd46e4029613" /><br/>
+    profile_id:<input id="id_profile_id" name="profile_id" type="text" value="282CEDF5-0533-4011-8520-B5FE7C77A7B1" /><br/>
+    transaction_uuid:<input id="id_transaction_uuid" name="transaction_uuid" type="text" value="d83b7bec-51ab-4ce1-8737-c3a9b561d488" /><br/>
+    signed_field_names:<input id="id_signed_field_names" name="signed_field_names" type="textarea" value="access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,amount,ignore_avs,currency,payment_method" /><br/>
+    signed_date_time:<input id="id_signed_date_time" name="signed_date_time" type="text" value="2016-05-21T08:36:41Z" /><br/>
+    unsigned_field_names:<input id="id_unsigned_field_names" name="unsigned_field_names" type="text" value="signature,bill_to_forename,bill_to_surname,bill_to_email,bill_to_phone,bill_to_address_line1,bill_to_address_city,bill_to_address_state,bill_to_address_country,bill_to_address_postal_code" /><br/>
+    ignore_avs:<input id="id_ignore_avs" name="ignore_avs" type="text" value="true" /><br/>
+    locale:<input id="id_locale" name="locale" type="text" value="en-us" /><br/>
+    transaction_type:<input id="id_transaction_type" name="transaction_type" type="text" value="sale" /><br/>
+    reference_number:<input id="id_reference_number" name="reference_number" type="text" value="100002800000000000000" /><br/>
+    amount:<input id="id_amount" name="amount" type="text" value="55" /><br/>
+    currency:<input id="id_currency" name="currency" type="text" value="KWD" /><br/>
+    payment_method:<input id="id_payment_method" name="payment_method" type="text" value="card" /><br/>
+    bill_to_forename:<input id="id_bill_to_forename" name="bill_to_forename" type="text" value="Saif Tahir" /><br/>
+    bill_to_surname:<input id="id_bill_to_surname" name="bill_to_surname" type="text" value="Saif Tahir" /><br/>
+    bill_to_email:<input id="id_bill_to_email" name="bill_to_email" type="text" value="saifee05@gmail.com" /><br/>
+    bill_to_phone:<input id="id_bill_to_phone" name="bill_to_phone" type="text" /><br/>
+    bill_to_address_line1:<input id="id_bill_to_address_line1" name="bill_to_address_line1" type="text" value="default address" /><br/>
+    bill_to_address_city:<input id="id_bill_to_address_city" name="bill_to_address_city" type="text" value="Abdullah Al-Salem" /><br/>
+    bill_to_address_state:<input id="id_bill_to_address_state" name="bill_to_address_state" type="text" /><br/>
+    bill_to_address_country:<input id="id_bill_to_address_country" name="bill_to_address_country" type="text" value="KW" /><br/>
+    bill_to_address_postal_code:<input id="id_bill_to_address_postal_code" name="bill_to_address_postal_code" type="text" /><br/>
+    signature:<input id="id_signature" name="signature" type="textarea" value="{{ signature }}" /><br/>
+    <input type="submit" value="Submit" />
+</form>
+{% endblock %}

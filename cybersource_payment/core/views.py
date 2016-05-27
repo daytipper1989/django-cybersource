@@ -23,7 +23,7 @@ def pay(request):
     from configuration import *
     pageTitle = "Payment"
     paymentForm = PaymentForm()
-    uuID = str(uuid.uuid1()).replace("-", "")
+    uuID = str(uuid.uuid1())#.replace("-", "")
     utcDateTime = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     return render_to_response('pay.html', {'pageTitle': pageTitle, 'paymentForm': paymentForm, 'uuID': uuID, 'utcDateTime': utcDateTime, 'profileID': profileID, 'accessKey': accessKey}, context_instance=RequestContext(request))
 
@@ -56,8 +56,8 @@ def confirm(request):
                 key=key, value=paramsDict[key]) for key in keys])
             messageBeforeEncoding = message
             message = message.encode('utf-8')
-            signature = base64.b64encode(hmac.new(secretKey.encode(
-                'utf-8'), msg=message, digestmod=hashlib.sha256).digest()).decode()
+            secret = secretKey.encode('utf-8')
+            signature = base64.b64encode(hmac.new(secret, msg=message, digestmod=hashlib.sha256).digest()).decode()
             return render_to_response('confirm.html', {'pageTitle': pageTitle, 'paymentForm': paymentForm, 'paramsDict': paramsDict, 'messageBeforeEncoding': messageBeforeEncoding, 'signature': signature}, context_instance=RequestContext(request))
         else:
             from configuration import *
@@ -76,3 +76,39 @@ def receive(request):
         return render_to_response('receive.html', {'pageTitle': pageTitle}, context_instance=RequestContext(request))
     else:
         return pay(request)
+
+
+def succeed(request):
+    pageTitle = "Successful"
+    paramsDict = {}
+    paramsDict['access_key'] = 'e5e145e18a843c818b88cd46e4029613'
+    paramsDict['profile_id'] = '282CEDF5-0533-4011-8520-B5FE7C77A7B1'
+    paramsDict['transaction_uuid'] = 'd83b7bec-51ab-4ce1-8737-c3a9b561d488'
+    paramsDict['signed_field_names'] = 'access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,amount,ignore_avs,currency,payment_method'
+    paramsDict['signed_date_time'] = '2016-05-21T08:36:41Z'
+    paramsDict['unsigned_field_names'] = 'signature,bill_to_forename,bill_to_surname,bill_to_email,bill_to_phone,bill_to_address_line1,bill_to_address_city,bill_to_address_state,bill_to_address_country,bill_to_address_postal_code'
+    paramsDict['ignore_avs'] = 'true'
+    paramsDict['locale'] = 'en-us'
+    paramsDict['transaction_type'] = 'sale'
+    paramsDict['reference_number'] = '100002800000000000000'
+    paramsDict['amount'] = '55'
+    paramsDict['currency'] = 'KWD'
+    paramsDict['payment_method'] = 'card'
+    paramsDict['bill_to_forename'] = 'Saif Tahir'
+    paramsDict['bill_to_surname'] = 'Saif Tahir'
+    paramsDict['bill_to_email'] = 'saifee05@gmail.com'
+    paramsDict['bill_to_phone'] = ''
+    paramsDict['bill_to_address_line1'] = 'default address'
+    paramsDict['bill_to_address_city'] = 'Abdullah Al-Salem'
+    paramsDict['bill_to_address_state'] = ''
+    paramsDict['bill_to_address_country'] = 'KW'
+    paramsDict['bill_to_address_postal_code'] = ''
+    keys = "access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,amount,ignore_avs,currency,payment_method".split(
+        ',')
+    message = ','.join(['{key}={value}'.format(
+        key=key, value=paramsDict[key]) for key in keys])
+    messageBeforeEncoding = message
+    message = message.encode('utf-8')
+    secret = secretKey.encode('utf-8')
+    signature = base64.b64encode(hmac.new(secret, msg=message, digestmod=hashlib.sha256).digest()).decode()
+    return render_to_response('successful.html', {'pageTitle': pageTitle, 'signature': signature}, context_instance=RequestContext(request))
