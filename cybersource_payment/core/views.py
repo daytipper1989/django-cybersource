@@ -16,7 +16,7 @@ secretKey = "b16669f97a9c4e4ab397cb8f75bc0765fdd99ca1c75445259d8947424dc83cd04fa
 
 def home(request):
     pageTitle = "Home"
-    return render_to_response('home.html', locals(), context_instance=RequestContext(request))
+    return render_to_response('home.html', {'pageTitle': pageTitle}, context_instance=RequestContext(request))
 
 
 def pay(request):
@@ -25,7 +25,7 @@ def pay(request):
     paymentForm = PaymentForm()
     uuID = str(uuid.uuid1()).replace("-", "")
     utcDateTime = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
-    return render_to_response('pay.html', locals(), context_instance=RequestContext(request))
+    return render_to_response('pay.html', {'pageTitle': pageTitle, 'paymentForm': paymentForm, 'uuID': uuID, 'utcDateTime': utcDateTime, 'profileID': profileID, 'accessKey': accessKey}, context_instance=RequestContext(request))
 
 
 def confirm(request):
@@ -39,8 +39,10 @@ def confirm(request):
             paramsDict['transaction_uuid'] = request.POST['transaction_uuid']
             paramsDict['signed_field_names'] = request.POST[
                 'signed_field_names']
-            paramsDict['unsigned_field_names'] = "payment_method,card_type,card_number,card_expiry_date,card_cvn,bill_to_forename,bill_to_surname,bill_to_email,bill_to_address_line1,bill_to_address_city,bill_to_address_postal_code,bill_to_address_state,bill_to_address_country"
+            # paramsDict['unsigned_field_names'] = "payment_method,card_type,card_number,card_expiry_date,card_cvn,bill_to_forename,bill_to_surname,bill_to_email,bill_to_address_line1,bill_to_address_city,bill_to_address_postal_code,bill_to_address_state,bill_to_address_country"
             # paramsDict['unsigned_field_names']="bill_to_forename,bill_to_surname,bill_to_email,bill_to_address_line1,bill_to_address_state,bill_to_address_country,payment_method,driver_license_state,driver_license_number,date_of_birth,echeck_account_type,company_tax_id,echeck_sec_code,echeck_account_number,echeck_routing_number"
+            paramsDict[
+                'unsigned_field_names'] = "card_type,card_number,card_expiry_date"
             paramsDict['signed_date_time'] = request.POST['signed_date_time']
             paramsDict['locale'] = request.POST['locale']
             paramsDict['transaction_type'] = paymentForm.cleaned_data[
@@ -56,14 +58,14 @@ def confirm(request):
             message = message.encode('utf-8')
             signature = base64.b64encode(hmac.new(secretKey.encode(
                 'utf-8'), msg=message, digestmod=hashlib.sha256).digest()).decode()
-            return render_to_response('confirm.html', locals(), context_instance=RequestContext(request))
+            return render_to_response('confirm.html', {'pageTitle': pageTitle, 'paymentForm': paymentForm, 'paramsDict': paramsDict, 'messageBeforeEncoding': messageBeforeEncoding, 'signature': signature}, context_instance=RequestContext(request))
         else:
             from configuration import *
             pageTitle = "Payment"
             #paymentForm = PaymentForm()
             uuID = str(uuid.uuid1()).replace("-", "")
             utcDateTime = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
-            return render_to_response('pay.html', locals(), context_instance=RequestContext(request))
+            return render_to_response('pay.html', {'pageTitle': pageTitle, 'paymentForm': paymentForm, 'uuID': uuID, 'utcDateTime': utcDateTime, 'profileID': profileID, 'accessKey': accessKey}, context_instance=RequestContext(request))
     else:
         return pay(request)
 
@@ -71,6 +73,6 @@ def confirm(request):
 def receive(request):
     pageTitle = "Receipt"
     if request.method == 'POST':
-        return render_to_response('receive.html', locals(), context_instance=RequestContext(request))
+        return render_to_response('receive.html', {'pageTitle': pageTitle}, context_instance=RequestContext(request))
     else:
         return pay(request)
