@@ -7,28 +7,16 @@
 {% endblock %}
 
 {% block main_content %}
-	
 	<form id="payment_form" action="payment_confirmation" method="post">
 	{% csrf_token %}
-    <input type="hidden" name="access_key" value="{{ accessKey }}">
-    <input type="hidden" name="profile_id" value="{{ profileID }}">
-    <input type="hidden" name="transaction_uuid" value="{{ uuID }}">
-    <input type="hidden" name="signed_field_names" value="access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency">
-    <input type="hidden" name="unsigned_field_names">
-    <input type="hidden" name="signed_date_time" value="{{ utcDateTime }}">
-    <input type="hidden" name="locale" value="en">
     <fieldset>
         <legend>Payment Details</legend>
         <div id="paymentDetailsSection" class="section">
-            <!--<span>transaction_type:</span><input type="text" name="transaction_type" size="25"><br/>
-            <span>reference_number:</span><input type="text" name="reference_number" size="25"><br/>
-            <span>amount:</span><input type="text" name="amount" size="25"><br/>
-            <span>currency:</span><input type="text" name="currency" size="25"><br/>-->
 			{{ paymentForm.as_p }}
         </div>
     </fieldset>
     <input type="submit" id="submit" name="submit" value="Submit"/>
 	{% load staticfiles %}
-    <script type="text/javascript" src="{% static 'core/payment_form.js' %}"></script>
 	</form>
+	<script type="text/javascript" src="{% static 'core/payment_form.js' %}"></script>
 {% endblock %}

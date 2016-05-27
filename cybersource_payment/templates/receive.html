@@ -11,7 +11,7 @@
 	<fieldset id="response">
 		<legend>Receipt</legend>
 		<div>
-			{% for key, value in d.items %}
+			{% for key, value in posted.items %}
 			<div>
             <span class="fieldName">{{ key }}</span><span class="fieldValue">{{ value }}</span><br/>
 			</div>
