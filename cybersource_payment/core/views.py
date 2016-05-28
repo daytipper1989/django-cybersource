@@ -63,7 +63,7 @@ def sign(paramsDict):
     message = message.encode('utf-8')
     secret = secretKey.encode('utf-8')
     digested = hmac.new(secret, msg=message, digestmod=hashlib.sha256).digest()
-    signature = base64.b64encode(digested)#.decode()
+    signature = base64.b64encode(digested).decode()
     return signature
 
 def getPostedParameters(paymentForm):
@@ -77,13 +77,13 @@ def getPostedParameters(paymentForm):
     paramsDict['signed_date_time'] = paymentForm.cleaned_data['signed_date_time']
     paramsDict['locale'] = paymentForm.cleaned_data['locale']
     paramsDict['transaction_type'] = paymentForm.cleaned_data['transaction_type']
-    #paramsDict['bill_address1'] = paymentForm.cleaned_data['bill_address1']
-    #paramsDict['bill_city'] = paymentForm.cleaned_data['bill_city']
-    #paramsDict['bill_country'] = paymentForm.cleaned_data['bill_country']
-    #paramsDict['customer_email'] = paymentForm.cleaned_data['customer_email']
-    #paramsDict['customer_lastname'] = paymentForm.cleaned_data['customer_lastname']
+    paramsDict['bill_address1'] = paymentForm.cleaned_data['bill_address1']
+    paramsDict['bill_city'] = paymentForm.cleaned_data['bill_city']
+    paramsDict['bill_country'] = paymentForm.cleaned_data['bill_country']
+    paramsDict['customer_email'] = paymentForm.cleaned_data['customer_email']
+    paramsDict['customer_lastname'] = paymentForm.cleaned_data['customer_lastname']
     paramsDict['reference_number'] = paymentForm.cleaned_data['reference_number']
     paramsDict['amount'] = paymentForm.cleaned_data['amount']
     paramsDict['currency'] = paymentForm.cleaned_data['currency']
-    paramsDict['ignore_avs'] = paymentForm.cleaned_data['ignore_avs']
+    #paramsDict['ignore_avs'] = paymentForm.cleaned_data['ignore_avs']
     return paramsDict
