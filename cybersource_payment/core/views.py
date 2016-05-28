@@ -1,89 +1,75 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from models import *
-from forms import *
 from django.views.decorators.csrf import csrf_exempt
+
+
+from forms import PaymentForm, ConfirmationForm
+from configuration import secret_key
+
 import hmac
 import base64
 import hashlib
 
-from configuration import secretKey
 
 # Create your views here.
 
 
 def home(request):
-    #The view for home page
-    pageTitle = "Home"
-    return render_to_response('home.html', {'pageTitle': pageTitle}, context_instance=RequestContext(request))
+    # The view for home page
+    page_title = "Home"
+    return render_to_response('home.html', {'page_title': page_title}, context_instance=RequestContext(request))
 
 
 def pay(request):
-    #The view for submitting payment data
-    pageTitle = "Payment"
-    paymentForm = PaymentForm()
-    return render_to_response('pay.html', {'pageTitle': pageTitle, 'paymentForm': paymentForm}, context_instance=RequestContext(request))
+    # The view for submitting payment data
+    page_title = "Payment"
+    payment_form = PaymentForm()
+    return render_to_response('pay.html', {'page_title': page_title, 'payment_form': payment_form}, context_instance=RequestContext(request))
 
 
 def confirm(request):
-    #The view for payment confirmation
-    pageTitle = "Confirmation"
+    # The view for payment confirmation
+    page_title = "Confirmation"
     if request.method == 'POST':
-        paymentForm = PaymentForm(request.POST)
-        if paymentForm.is_valid():
-            paramsDict = getPostedParameters(paymentForm)
-            signature = sign(paramsDict)
-            paramsDict['signature'] = signature
-            confirmationForm = ConfirmationForm(paramsDict)
-            return render_to_response('confirm.html', {'pageTitle': pageTitle, 'confirmationForm': confirmationForm, 'paramsDict': paramsDict, 'signature': signature}, context_instance=RequestContext(request))
+        payment_form = PaymentForm(request.POST)
+        if payment_form.is_valid():
+            params_dict = get_posted_parameters(payment_form)
+            signature = sign(params_dict)
+            params_dict['signature'] = signature
+            confirmation_form = ConfirmationForm(params_dict)
+            return render_to_response('confirm.html', {'page_title': page_title, 'confirmation_form': confirmation_form, 'params_dict': params_dict, 'signature': signature}, context_instance=RequestContext(request))
         else:
             from configuration import *
-            pageTitle = "Payment"
-            return render_to_response('pay.html', {'pageTitle': pageTitle, 'paymentForm': paymentForm }, context_instance=RequestContext(request))
+            page_title = "Payment"
+            return render_to_response('pay.html', {'page_title': page_title, 'payment_form': payment_form}, context_instance=RequestContext(request))
     else:
         return pay(request)
+
 
 @csrf_exempt
 def receive(request):
-    #The view containing the receipt
-    pageTitle = "Receipt"
+    # The view containing the receipt
+    page_title = "Receipt"
     if request.method == 'POST':
         posted = request.POST
         amount = posted['req_amount']
-        return render_to_response('receive.html', {'pageTitle':pageTitle,'posted':posted,'amount':amount}, context_instance=RequestContext(request))
+        return render_to_response('receive.html', {'page_title': page_title, 'posted': posted, 'amount': amount}, context_instance=RequestContext(request))
     else:
         return pay(request)
 
 
-def sign(paramsDict):
-    #creates and returns the signature
-    keys = paramsDict['signed_field_names'].split(',')
-    message = ','.join(['{key}={value}'.format(key=key, value=paramsDict[key]) for key in keys])
-    messageBeforeEncoding = message
+def sign(params_dict):
+    # creates and returns the signature
+    keys = params_dict['signed_field_names'].split(',')
+    message = ','.join(['{key}={value}'.format(
+        key=key, value=params_dict[key]) for key in keys])
     message = message.encode('utf-8')
-    secret = secretKey.encode('utf-8')
+    secret = secret_key.encode('utf-8')
     digested = hmac.new(secret, msg=message, digestmod=hashlib.sha256).digest()
     signature = base64.b64encode(digested).decode()
     return signature
 
-def getPostedParameters(paymentForm):
-    #places posted parameters in a dictionary and returns the dictionary
-    paramsDict = {}
-    paramsDict['access_key'] = paymentForm.cleaned_data['access_key']
-    paramsDict['profile_id'] = paymentForm.cleaned_data['profile_id']
-    paramsDict['transaction_uuid'] = paymentForm.cleaned_data['transaction_uuid']
-    paramsDict['signed_field_names'] = paymentForm.cleaned_data['signed_field_names']
-    paramsDict['unsigned_field_names'] = paymentForm.cleaned_data['unsigned_field_names']
-    paramsDict['signed_date_time'] = paymentForm.cleaned_data['signed_date_time']
-    paramsDict['locale'] = paymentForm.cleaned_data['locale']
-    paramsDict['transaction_type'] = paymentForm.cleaned_data['transaction_type']
-    paramsDict['bill_address1'] = paymentForm.cleaned_data['bill_address1']
-    paramsDict['bill_city'] = paymentForm.cleaned_data['bill_city']
-    paramsDict['bill_country'] = paymentForm.cleaned_data['bill_country']
-    paramsDict['customer_email'] = paymentForm.cleaned_data['customer_email']
-    paramsDict['customer_lastname'] = paymentForm.cleaned_data['customer_lastname']
-    paramsDict['reference_number'] = paymentForm.cleaned_data['reference_number']
-    paramsDict['amount'] = paymentForm.cleaned_data['amount']
-    paramsDict['currency'] = paymentForm.cleaned_data['currency']
-    #paramsDict['ignore_avs'] = paymentForm.cleaned_data['ignore_avs']
-    return paramsDict
+
+def get_posted_parameters(form):
+    # places posted parameters in a dictionary and returns the dictionary
+    return {field: form.cleaned_data[field] for field in form.cleaned_data}

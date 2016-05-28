@@ -10,7 +10,7 @@
 	<fieldset id="confirmation">
 		<legend>Review Payment Details</legend>
 		<div>
-			{% for key, value in paramsDict.items %}
+			{% for key, value in params_dict.items %}
 				<div>
 					<span class="fieldName">{{ key }}</span><span class="fieldValue">{{ value }}</span><br/>
 				</div>
@@ -18,7 +18,7 @@
 		</div>
 	</fieldset>
 	<form id="payment_confirmation" action="https://testsecureacceptance.cybersource.com/pay" method="post" hidden/>
-		{{ confirmationForm }}
+		{{ confirmation_form }}
 	</form>
 	<button onclick="document.getElementById('payment_confirmation').submit()">Confirm</button> 
 {% endblock %}
