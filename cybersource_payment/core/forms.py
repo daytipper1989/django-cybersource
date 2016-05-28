@@ -23,7 +23,7 @@ class PaymentForm(forms.Form):
     transaction_uuid = forms.CharField(label=_('Transaction UUID'), required=True, initial = str(uuid.uuid1()), disabled = True,widget = forms.HiddenInput())
     #ignore_avs = forms.CharField(label=_('Ignore AVS'), required=True, initial = 'true', disabled = True,widget = forms.HiddenInput())
     signed_field_names = forms.CharField(label=_('Signed Field Names'), required=True, initial = "access_key,profile_id,transaction_uuid,signed_field_names,unsigned_field_names,signed_date_time,locale,transaction_type,reference_number,amount,currency", disabled = True,widget = forms.HiddenInput())
-    unsigned_field_names = forms.CharField(label=_('Unsigned Field Names'), required=False, initial = "", disabled = True,widget = forms.HiddenInput())
+    unsigned_field_names = forms.CharField(label=_('Unsigned Field Names'), required=False, initial = "bill_address1,bill_city,bill_country,customer_email,customer_lastname", disabled = True,widget = forms.HiddenInput())
     #unsigned_field_names = forms.CharField(label=_('Unsigned Field Names'), required=False, initial = "", disabled = True,widget = forms.HiddenInput())
     signed_date_time = forms.CharField(label=_('Signed Datetime'), required=True, initial = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"), disabled = True,widget = forms.HiddenInput())
     locale = forms.CharField(label=_('Locale'), required=True, initial = "en", disabled = True,widget = forms.HiddenInput())

@@ -15,11 +15,10 @@
 					<span class="fieldName">{{ key }}</span><span class="fieldValue">{{ value }}</span><br/>
 				</div>
 			{% endfor %}
-			
 		</div>
 	</fieldset>
 	<form id="payment_confirmation" action="https://testsecureacceptance.cybersource.com/pay" method="post" hidden/>
-		{{ confirmationForm.as_p }}
+		{{ confirmationForm }}
 	</form>
 	<button onclick="document.getElementById('payment_confirmation').submit()">Confirm</button> 
 {% endblock %}
